@@ -1,3 +1,8 @@
+'''
+Add your next birthday on the about me
+section on your Discord profile.
+'''
+
 from datetime import datetime
 
 try:
@@ -6,32 +11,35 @@ except ImportError:
     pyperclip = None
 
 
-def get_dt_from_input():
+def get_datetime_object_from_input():
+    '''Get a datetime object from user input.'''
     print('Next birthday format: YYYY-MM-DD')
     inp = input('> ')
     try:
-        dt = datetime.strptime(inp, '%Y-%m-%d')
+        datetime_object = datetime.strptime(inp, '%Y-%m-%d')
     except ValueError:
         print('Invalid format')
-        get_dt_from_input()
+        get_datetime_object_from_input()
     else:
-        return dt
+        return datetime_object
 
 
-def discord_formatting(dt):
-    timestamp = int(dt.timestamp())
-    return '<t:%d:R>' % timestamp
+def get_discord_formatting(datetime_object):
+    '''Get the discord formatting from a datetime object.'''
+    timestamp = int(datetime_object.timestamp())
+    return f'<t:{timestamp}:R>'
 
 
 def main():
-    dt = get_dt_from_input()
-    df = discord_formatting(dt)
+    '''Main function.'''
+    datetime_object = get_datetime_object_from_input()
+    discord_formatting = get_discord_formatting(datetime_object)
 
     print('Add the following to your about me:', end='\n')
-    print('**Birthday**: %s' % df)
+    print(f'**Birthday**: {discord_formatting}')
 
     try:
-        pyperclip.copy('**Birthday**: %s' % df)
+        pyperclip.copy(f'**Birthday**: {discord_formatting}')
     except AttributeError:
         pass
     else:

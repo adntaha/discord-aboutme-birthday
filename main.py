@@ -3,7 +3,6 @@ Add your next birthday on the about me
 section on your Discord profile.
 '''
 
-import inspect
 from datetime import datetime
 
 try:
@@ -24,9 +23,7 @@ def get_datetime_object_from_input() -> datetime:
         datetime_object = datetime.strptime(inp, '%Y-%m-%d')
     except ValueError:
         print('Invalid format')
-        func_name = inspect.currentframe().f_code.co_name
-        func = globals()[func_name]
-        return func()
+        return get_datetime_object_from_input()
     else:
         return datetime_object
 
